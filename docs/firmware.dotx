@@ -25,13 +25,13 @@
 #include "common.dotx"
 
 // States
-#define S_INIT_GYR   "Initialize\nGyroscope"
-#define S_INIT_ACC   "Initialize\nAccelerometer"
-#define S_INIT_MAG   "Initialize\nMagnetometer"
-#define S_IDLE       "Idle"
-#define S_RD_GYR     "Read\nGyroscope"
-#define S_RD_ACC     "Read\nAccelerometer"
-#define S_RD_MAG     "Read\nMagnetometer"
+#define S_INIT_GYR   "{ INIT_GYRO | Initialize\nGyroscope }"
+#define S_INIT_ACC   "{ INIT_ACCEL | Initialize\nAccelerometer }"
+#define S_INIT_MAG   "{ INIT_MAGN | Initialize\nMagnetometer }"
+#define S_IDLE       "{ IDLE | sleep() }"
+#define S_RD_GYR     "{ RD_GYRO | Read\nGyroscope }"
+#define S_RD_ACC     "{ RD_ACCEL | Read\nAccelerometer }"
+#define S_RD_MAG     "{ RD_MAGN | Read\nMagnetometer }"
 
 digraph "IMUco Firmware State Diagram" {
 	// States
@@ -47,15 +47,15 @@ digraph "IMUco Firmware State Diagram" {
 
 	// Initialize gyroscope
 	trans(S_START, S_INIT_GYR, "POWER_ON");
-	trans(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ");
+	trans(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ / gyro_i2c_irq()");
 
 	// Initialize accelerometer
 	trans(S_INIT_GYR, S_INIT_ACC, "GYR_INIT_CB");
-	trans(S_INIT_ACC, S_INIT_ACC, "I2C_IRQ");
+	trans(S_INIT_ACC, S_INIT_ACC, "I2C_IRQ / accel_i2c_irq()");
 
 	// Initialize magnetometer
 	trans(S_INIT_ACC, S_INIT_MAG, "GYR_INIT_CB");
-	trans(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ");
+	trans(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ / magn_i2c_irq()");
 
 	// Idle
 	trans(S_INIT_MAG, S_IDLE, "MAG_INIT_CB");
@@ -63,15 +63,15 @@ digraph "IMUco Firmware State Diagram" {
 	// Read gyroscope
 	trans(S_IDLE, S_RD_GYR, "GYRO_DATA_IRQ");
 	trans(S_RD_GYR, S_IDLE, "GYRO_DATA_CB");
-	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ");
+	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ / gyr_i2c_irq()");
 
 	// Read accelerometer
 	trans(S_IDLE, S_RD_ACC, "ACCEL_DATA_IRQ");
 	trans(S_RD_ACC, S_IDLE, "ACCEL_DATA_CB");
-	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ");
+	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ / accel_i2c_irq()");
 
 	// Read magnetometer
 	trans(S_IDLE, S_RD_MAG, "MAGN_DATA_IRQ");
 	trans(S_RD_MAG, S_IDLE, "MAGN_DATA_CB");
-	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ");
+	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ / magn_i2c_irq()");
 }
