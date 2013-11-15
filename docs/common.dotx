@@ -22,38 +22,18 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "common.dotx"
+// Fonts and sizes
+#define NODEFONTNAME "Sans-Serif"
+#define EDGEFONTNAME "Sans-Serif"
+#define NODEFONTSIZE "10pt"
+#define EDGEFONTSIZE "7pt"
 
-// States
-#define S_IDLE   "Idle"
-#define S_RD_GYR "Read\nGyroscope"
-#define S_RD_ACC "Read\nAccelerometer"
-#define S_RD_MAG "Read\nMagnetometer"
+// Node types
+#define start() {rank="min"; S_START [label="", style="filled", shape="circle" fillcolor="black", width="0.25"]}
+#define final() {rank="sink"; S_FINAL [label="", style="filled", shape="doublecircle" fillcolor="black", width="0.25"]}
+#define state(name) name [style="solid, rounded", shape="box", fixedsize="true", width="1", fontname=NODEFONTNAME, fontsize=NODEFONTSIZE]
+#define tstate(name) name [style="dashed, rounded", shape="box", fixedsize="true", width="1", fontname=NODEFONTNAME, fontsize=NODEFONTSIZE]
 
-digraph "IMUco Firmware State Diagram" {
-	// States
-	start();
-	state(S_IDLE);
-	state(S_RD_GYR);
-	state(S_RD_ACC);
-	state(S_RD_MAG);
-	//final();
-
-	// Start
-	trans(S_START, S_IDLE, "POWER_ON");
-
-	// Read gyroscope
-	trans(S_IDLE, S_RD_GYR, "GYRO_IRQ");
-	trans(S_RD_GYR, S_IDLE, "GYRO_CB");
-	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ");
-
-	// Read accelerometer
-	trans(S_IDLE, S_RD_ACC, "ACCEL_IRQ");
-	trans(S_RD_ACC, S_IDLE, "ACCEL_CB");
-	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ");
-
-	// Read magnetometer
-	trans(S_IDLE, S_RD_MAG, "MAGN_IRQ");
-	trans(S_RD_MAG, S_IDLE, "MAGN_CB");
-	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ");
-}
+// Edge types
+#define trans(node1, node2, title) node1 -> node2 [label=title, fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]
+#define error(node1, node2, title) node1 -> node2 [label=title, color="#aaaaaa", fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]

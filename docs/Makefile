@@ -31,7 +31,7 @@ all: $(SVGS)
 clean:
 	$(RM) $(SVGS)
 
-%.dot: %.dotx
+%.dot: %.dotx common.dotx
 	cpp $< $@
 
 %.svg: %.dot
