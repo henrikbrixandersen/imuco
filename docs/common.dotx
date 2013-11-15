@@ -25,7 +25,7 @@
 // Fonts and sizes
 #define NODEFONTNAME "Sans-Serif"
 #define EDGEFONTNAME "Sans-Serif"
-#define NODEFONTSIZE "10pt"
+#define NODEFONTSIZE "9pt"
 #define EDGEFONTSIZE "7pt"
 
 // Node types
