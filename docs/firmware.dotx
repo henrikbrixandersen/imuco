@@ -45,6 +45,7 @@
 #define error(node1, node2, title) node1 -> node2 [label=title, color="#aaaaaa", fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]
 
 digraph "IMUco Firmware State Diagram" {
+	// States
 	start();
 	state(S_IDLE);
 	state(S_RD_GYR);
