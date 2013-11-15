@@ -25,35 +25,53 @@
 #include "common.dotx"
 
 // States
-#define S_IDLE   "Idle"
-#define S_RD_GYR "Read\nGyroscope"
-#define S_RD_ACC "Read\nAccelerometer"
-#define S_RD_MAG "Read\nMagnetometer"
+#define S_INIT_GYR   "Initialize\nGyroscope"
+#define S_INIT_ACC   "Initialize\nAccelerometer"
+#define S_INIT_MAG   "Initialize\nMagnetometer"
+#define S_IDLE       "Idle"
+#define S_RD_GYR     "Read\nGyroscope"
+#define S_RD_ACC     "Read\nAccelerometer"
+#define S_RD_MAG     "Read\nMagnetometer"
 
 digraph "IMUco Firmware State Diagram" {
 	// States
 	start();
+	state(S_INIT_GYR);
+	state(S_INIT_ACC);
+	state(S_INIT_MAG);
 	state(S_IDLE);
 	state(S_RD_GYR);
 	state(S_RD_ACC);
 	state(S_RD_MAG);
 	//final();
 
-	// Start
-	trans(S_START, S_IDLE, "POWER_ON");
+	// Initialize gyroscope
+	trans(S_START, S_INIT_GYR, "POWER_ON");
+	trans(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ");
+
+	// Initialize accelerometer
+	trans(S_INIT_GYR, S_INIT_ACC, "GYR_INIT_CB");
+	trans(S_INIT_ACC, S_INIT_ACC, "I2C_IRQ");
+
+	// Initialize magnetometer
+	trans(S_INIT_ACC, S_INIT_MAG, "GYR_INIT_CB");
+	trans(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ");
+
+	// Idle
+	trans(S_INIT_MAG, S_IDLE, "MAG_INIT_CB");
 
 	// Read gyroscope
-	trans(S_IDLE, S_RD_GYR, "GYRO_IRQ");
-	trans(S_RD_GYR, S_IDLE, "GYRO_CB");
+	trans(S_IDLE, S_RD_GYR, "GYRO_DATA_IRQ");
+	trans(S_RD_GYR, S_IDLE, "GYRO_DATA_CB");
 	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ");
 
 	// Read accelerometer
-	trans(S_IDLE, S_RD_ACC, "ACCEL_IRQ");
-	trans(S_RD_ACC, S_IDLE, "ACCEL_CB");
+	trans(S_IDLE, S_RD_ACC, "ACCEL_DATA_IRQ");
+	trans(S_RD_ACC, S_IDLE, "ACCEL_DATA_CB");
 	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ");
 
 	// Read magnetometer
-	trans(S_IDLE, S_RD_MAG, "MAGN_IRQ");
-	trans(S_RD_MAG, S_IDLE, "MAGN_CB");
+	trans(S_IDLE, S_RD_MAG, "MAGN_DATA_IRQ");
+	trans(S_RD_MAG, S_IDLE, "MAGN_DATA_CB");
 	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ");
 }
