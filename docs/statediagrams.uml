@@ -31,9 +31,7 @@
 // Node types
 #define start() {rank="min"; S_START [label="", style="filled", shape="circle" fillcolor="black", width="0.25"]}
 #define final() {rank="sink"; S_FINAL [label="", style="filled", shape="doublecircle" fillcolor="black", width="0.25"]}
-#define state(name) name [shape="Mrecord", label=name, fixedsize="true", width="1", fontname=NODEFONTNAME, fontsize=NODEFONTSIZE]
-#define tstate(name) name [style="dashed, rounded", shape="box", fixedsize="true", width="1", fontname=NODEFONTNAME, fontsize=NODEFONTSIZE]
+#define state(text) text [shape="Mrecord", label=text, fixedsize="true", width="1", fontname=NODEFONTNAME, fontsize=NODEFONTSIZE]
 
 // Edge types
-#define trans(node1, node2, title) node1 -> node2 [label=title, fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]
-#define error(node1, node2, title) node1 -> node2 [label=title, color="#aaaaaa", fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]
+#define transition(from, to, text) from -> to [label=text, fontname=EDGEFONTNAME, fontsize=EDGEFONTSIZE]

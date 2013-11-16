@@ -43,35 +43,34 @@ digraph "IMUco Firmware State Diagram" {
 	state(S_RD_GYR);
 	state(S_RD_ACC);
 	state(S_RD_MAG);
-	//final();
 
 	// Initialize gyroscope
-	trans(S_START, S_INIT_GYR, "POWER_ON");
-	trans(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ / gyro_i2c_irq()");
+	transition(S_START, S_INIT_GYR, "POWER_ON");
+	transition(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ / gyro_i2c_irq()");
 
 	// Initialize accelerometer
-	trans(S_INIT_GYR, S_INIT_ACC, "GYR_INIT_CB");
-	trans(S_INIT_ACC, S_INIT_ACC, "I2C_IRQ / accel_i2c_irq()");
+	transition(S_INIT_GYR, S_INIT_ACC, "GYR_INIT_CB");
+	transition(S_INIT_ACC, S_INIT_ACC, "I2C_IRQ / accel_i2c_irq()");
 
 	// Initialize magnetometer
-	trans(S_INIT_ACC, S_INIT_MAG, "GYR_INIT_CB");
-	trans(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ / magn_i2c_irq()");
+	transition(S_INIT_ACC, S_INIT_MAG, "GYR_INIT_CB");
+	transition(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ / magn_i2c_irq()");
 
 	// Sleep
-	trans(S_INIT_MAG, S_SLEEP, "MAG_INIT_CB / sleep()");
+	transition(S_INIT_MAG, S_SLEEP, "MAG_INIT_CB / sleep()");
 
 	// Read gyroscope
-	trans(S_SLEEP, S_RD_GYR, "GYRO_DATA_IRQ");
-	trans(S_RD_GYR, S_SLEEP, "GYRO_DATA_CB / sleep()");
-	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ / gyr_i2c_irq()");
+	transition(S_SLEEP, S_RD_GYR, "GYRO_DATA_IRQ");
+	transition(S_RD_GYR, S_SLEEP, "GYRO_DATA_CB / sleep()");
+	transition(S_RD_GYR, S_RD_GYR, "I2C_IRQ / gyr_i2c_irq()");
 
 	// Read accelerometer
-	trans(S_SLEEP, S_RD_ACC, "ACCEL_DATA_IRQ");
-	trans(S_RD_ACC, S_SLEEP, "ACCEL_DATA_CB / sleep()");
-	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ / accel_i2c_irq()");
+	transition(S_SLEEP, S_RD_ACC, "ACCEL_DATA_IRQ");
+	transition(S_RD_ACC, S_SLEEP, "ACCEL_DATA_CB / sleep()");
+	transition(S_RD_ACC, S_RD_ACC, "I2C_IRQ / accel_i2c_irq()");
 
 	// Read magnetometer
-	trans(S_SLEEP, S_RD_MAG, "MAGN_DATA_IRQ");
-	trans(S_RD_MAG, S_SLEEP, "MAGN_DATA_CB / sleep()");
-	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ / magn_i2c_irq()");
+	transition(S_SLEEP, S_RD_MAG, "MAGN_DATA_IRQ");
+	transition(S_RD_MAG, S_SLEEP, "MAGN_DATA_CB / sleep()");
+	transition(S_RD_MAG, S_RD_MAG, "I2C_IRQ / magn_i2c_irq()");
 }
