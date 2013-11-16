@@ -25,13 +25,22 @@
 SVGS=firmware.svg
 
 .PHONY: all clean
+.INTERMEDIATE: $(SVGS:.svg=.dot)
 
 all: $(SVGS)
 
-clean:
-	$(RM) $(SVGS)
+ifneq ($(MAKECMDGOALS),clean)
+-include $(SVGS:.svg=.d)
+endif
 
-%.dot: %.dotx common.dotx
+clean:
+	$(RM) $(SVGS) $(SVGS:.svg=.d)
+
+
+%.d: %.uml
+	cpp -M $< | sed -e 's/^$*.o:/$*.dot:/'> $@
+
+%.dot: %.uml %.d
 	cpp $< $@
 
 %.svg: %.dot
