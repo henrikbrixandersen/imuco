@@ -28,7 +28,7 @@
 #define S_INIT_GYR   "{ INIT_GYRO | Initialize\nGyroscope }"
 #define S_INIT_ACC   "{ INIT_ACCEL | Initialize\nAccelerometer }"
 #define S_INIT_MAG   "{ INIT_MAGN | Initialize\nMagnetometer }"
-#define S_IDLE       "{ IDLE | sleep() }"
+#define S_SLEEP      "{ SLEEP | }"
 #define S_RD_GYR     "{ RD_GYRO | Read\nGyroscope }"
 #define S_RD_ACC     "{ RD_ACCEL | Read\nAccelerometer }"
 #define S_RD_MAG     "{ RD_MAGN | Read\nMagnetometer }"
@@ -39,7 +39,7 @@ digraph "IMUco Firmware State Diagram" {
 	state(S_INIT_GYR);
 	state(S_INIT_ACC);
 	state(S_INIT_MAG);
-	state(S_IDLE);
+	state(S_SLEEP);
 	state(S_RD_GYR);
 	state(S_RD_ACC);
 	state(S_RD_MAG);
@@ -57,21 +57,21 @@ digraph "IMUco Firmware State Diagram" {
 	trans(S_INIT_ACC, S_INIT_MAG, "GYR_INIT_CB");
 	trans(S_INIT_MAG, S_INIT_MAG, "I2C_IRQ / magn_i2c_irq()");
 
-	// Idle
-	trans(S_INIT_MAG, S_IDLE, "MAG_INIT_CB");
+	// Sleep
+	trans(S_INIT_MAG, S_SLEEP, "MAG_INIT_CB / sleep()");
 
 	// Read gyroscope
-	trans(S_IDLE, S_RD_GYR, "GYRO_DATA_IRQ");
-	trans(S_RD_GYR, S_IDLE, "GYRO_DATA_CB");
+	trans(S_SLEEP, S_RD_GYR, "GYRO_DATA_IRQ");
+	trans(S_RD_GYR, S_SLEEP, "GYRO_DATA_CB / sleep()");
 	trans(S_RD_GYR, S_RD_GYR, "I2C_IRQ / gyr_i2c_irq()");
 
 	// Read accelerometer
-	trans(S_IDLE, S_RD_ACC, "ACCEL_DATA_IRQ");
-	trans(S_RD_ACC, S_IDLE, "ACCEL_DATA_CB");
+	trans(S_SLEEP, S_RD_ACC, "ACCEL_DATA_IRQ");
+	trans(S_RD_ACC, S_SLEEP, "ACCEL_DATA_CB / sleep()");
 	trans(S_RD_ACC, S_RD_ACC, "I2C_IRQ / accel_i2c_irq()");
 
 	// Read magnetometer
-	trans(S_IDLE, S_RD_MAG, "MAGN_DATA_IRQ");
-	trans(S_RD_MAG, S_IDLE, "MAGN_DATA_CB");
+	trans(S_SLEEP, S_RD_MAG, "MAGN_DATA_IRQ");
+	trans(S_RD_MAG, S_SLEEP, "MAGN_DATA_CB / sleep()");
 	trans(S_RD_MAG, S_RD_MAG, "I2C_IRQ / magn_i2c_irq()");
 }
