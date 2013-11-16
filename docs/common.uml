@@ -22,12 +22,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "common.uml"
+// Fonts and sizes
+#define NODE_FONT_NAME     "Sans-Serif"
+#define EDGE_FONT_SIZENAME "Sans-Serif"
+#define NODE_FONT_SIZE     "9pt"
+#define EDGE_FONT_SIZESIZE "7pt"
 
-// Node types
-#define start() {rank="min"; S_START [label="", style="filled", shape="circle" fillcolor="black", width="0.25"]}
-#define final() {rank="sink"; S_FINAL [label="", style="filled", shape="doublecircle" fillcolor="black", width="0.25"]}
-#define state(text) text [shape="Mrecord", label=text, fixedsize="true", width="1", fontname=NODE_FONT_NAME, fontsize=NODE_FONT_SIZE]
-
-// Edge types
-#define transition(from, to, text) from -> to [label=text, fontname=EDGE_FONT_SIZENAME, fontsize=EDGE_FONT_SIZESIZE]
+// Complex types
+#define comment(state, text) text -> state [style="dashed", arrowhead="none", spline="line"]; text [shape="note", label=text, fixedsize="true", width="1", fontname=NODE_FONT_NAME, fontsize=NODE_FONT_SIZE]
