@@ -38,7 +38,7 @@ clean:
 
 
 %.d: %.uml
-	cpp -M $< | sed -e 's/^$*.o:/$*.dot:/'> $@
+	cpp -M $< | sed -e 's/^$*.o:/$*.dot:/' > $@
 
 %.dot: %.uml %.d
 	cpp $< $@
