@@ -23,10 +23,18 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Fonts and sizes
-#define NODE_FONT_NAME     "Sans-Serif"
-#define EDGE_FONT_SIZENAME "Sans-Serif"
-#define NODE_FONT_SIZE     "9pt"
-#define EDGE_FONT_SIZESIZE "7pt"
+#ifndef NODE_FONT_NAME
+#define NODE_FONT_NAME "Sans-Serif"
+#endif
+#ifndef EDGE_FONT_NAME
+#define EDGE_FONT_NAME "Sans-Serif"
+#endif
+#ifndef NODE_FONT_SIZE
+#define NODE_FONT_SIZE "9pt"
+#endif
+#ifndef EDGE_FONT_SIZE
+#define EDGE_FONT_SIZE "7pt"
+#endif
 
 // Complex types
 #define comment(state, text) text -> state [style="dashed", arrowhead="none", spline="line"]; text [shape="note", label=text, fixedsize="true", width="1", fontname=NODE_FONT_NAME, fontsize=NODE_FONT_SIZE]
