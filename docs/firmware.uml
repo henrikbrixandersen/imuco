@@ -45,7 +45,7 @@ digraph "IMUco Firmware State Diagram" {
 	state(S_RD_MAG);
 
 	// Initialize gyroscope
-	transition(S_START, S_INIT_GYR, "POWER_ON");
+	transition(S_START, S_INIT_GYR, "");
 	transition(S_INIT_GYR, S_INIT_GYR, "I2C_IRQ / gyro_i2c_irq()");
 
 	// Initialize accelerometer
