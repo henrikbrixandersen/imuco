@@ -22,15 +22,15 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-.PHONY: all avrdude clean cleandocs docs
+.PHONY: all avrdude clean cleandocs doc
 
 all:
 
 all avrdude clean:
 	$(MAKE) -C test $@
 
-docs:
-	$(MAKE) -C docs
+doc:
+	$(MAKE) -C doc
 
-cleandocs:
-	$(MAKE) -C docs clean
+cleandoc:
+	$(MAKE) -C doc clean
