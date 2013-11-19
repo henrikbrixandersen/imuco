@@ -53,6 +53,8 @@ SRC= \
 
 all:
 
+avrdude:
+
 include $(LUFA_PATH)/Build/lufa_core.mk
 include $(LUFA_PATH)/Build/lufa_sources.mk
 include $(LUFA_PATH)/Build/lufa_build.mk

@@ -26,7 +26,7 @@
 
 all:
 
-all clean:
+all avrdude clean:
 	$(MAKE) -C test $@
 
 docs:
