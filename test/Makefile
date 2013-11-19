@@ -33,7 +33,7 @@ F_USB=$(F_CPU)
 
 OPTIMIZATION=s
 LUFA_PATH= ../../lufa/LUFA
-CC_FLAGS= -DUSE_LUFA_CONFIG_HEADER -DTEST
+CC_FLAGS= -DUSE_LUFA_CONFIG_HEADER -DIMUCO_DEBUG -I../src
 
 AVRDUDE_PORT=/dev/tty.usbmodem641
 AVRDUDE_PROGRAMMER=avr109
@@ -42,12 +42,12 @@ VPATH=../src
 
 SRC= \
 	adxl345.c \
-	descriptors.c \
 	hmc5883l.c \
 	i2c.c \
 	itg3200.c \
 	main.c \
-	usb.c \
+	usb-debug.c \
+	usb-descriptors.c \
 	$(LUFA_SRC_USB) \
 	$(LUFA_SRC_USBCLASS)
 

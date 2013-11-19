@@ -30,7 +30,7 @@
 
 #include <LUFA/Drivers/USB/USB.h>
 
-#include "descriptors.h"
+#include "usb-descriptors.h"
 
 #define IMUCO_MANUFACTURER_STR     L"Henrik Brix Andersen"
 #define IMUCO_MANUFACTURER_STR_LEN 20

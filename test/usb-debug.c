@@ -33,9 +33,13 @@
 #include <LUFA/Drivers/Board/LEDs.h>
 #include <LUFA/Drivers/USB/USB.h>
 
-#include "descriptors.h"
+#include "usb-descriptors.h"
 
-USB_ClassInfo_CDC_Device_t imuco_cdc_interface = {
+#include "debug.h"
+
+static FILE imuco_cdc_stream;
+
+static USB_ClassInfo_CDC_Device_t imuco_cdc_interface = {
 	.Config = {
             .ControlInterfaceNumber   = 0,
             .DataINEndpoint           = {
@@ -57,10 +61,20 @@ USB_ClassInfo_CDC_Device_t imuco_cdc_interface = {
 };
 
 void
-usb_init(void) {
+debug_init(void) {
     LEDs_Init();
     USB_Init();
-    CDC_Device_CreateBlockingStream(&imuco_cdc_interface, stdout);
+    CDC_Device_CreateStream(&imuco_cdc_interface, &imuco_cdc_stream);
+}
+
+void
+debug(const char* fmt, ...)
+{
+    va_list va;
+
+    va_start(va, fmt);
+    vfprintf(&imuco_cdc_stream, fmt, va);
+    va_end(va);
 }
 
 void

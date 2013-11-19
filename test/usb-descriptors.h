@@ -28,8 +28,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __DESCRIPTORS_H__
-#define __DESCRIPTORS_H__
+#ifndef __USB_DESCRIPTORS_H__
+#define __USB_DESCRIPTORS_H__
 
 #include <LUFA/Drivers/USB/USB.h>
 
@@ -59,5 +59,5 @@ typedef struct {
 uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue, const uint8_t wIndex, const void** const DescriptorAddress)
 	ATTR_WARN_UNUSED_RESULT ATTR_NON_NULL_PTR_ARG(3);
 
-#endif /* __DESCRIPTORS_H__ */
+#endif /* __USB_DESCRIPTORS_H__ */
 

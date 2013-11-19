@@ -37,9 +37,7 @@
 #include "itg3200.h"
 #include "i2c.h"
 
-#ifdef TEST
-#include "usb.h"
-#endif /* TEST */
+#include "debug.h"
 
 int main(void) {
     /* Disable watchdog */
@@ -49,9 +47,7 @@ int main(void) {
     /* Disable clock division */
     clock_prescale_set(clock_div_1);
 
-#ifdef TEST
-    usb_init();
-#endif /* TEST */
+    DEBUG_INIT();
 
     sei();
 
