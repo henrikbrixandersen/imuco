@@ -24,6 +24,8 @@
 
 SVGS=firmware.svg
 
+FLAGS=-Iuml
+
 .PHONY: all clean
 .INTERMEDIATE: $(SVGS:.svg=.dot)
 
@@ -38,10 +40,10 @@ clean:
 
 
 %.d: %.uml
-	cpp -M $< | sed -e 's/^$*.o:/$*.dot:/' > $@
+	cpp $(FLAGS) -M $< | sed -e 's/^$*.o:/$*.dot:/' > $@
 
 %.dot: %.uml %.d
-	cpp $< $@
+	cpp $(FLAGS) $< $@
 
 %.svg: %.dot
 	dot -Tsvg -o$@ $<
