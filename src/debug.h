@@ -35,7 +35,7 @@
 extern void debug_init(void);
 #define DEBUG_INIT() debug_init()
 extern void debug(const char* fmt, ...);
-#define DEBUG(fmt, ...) debug(fmt, __VA_ARGS__)
+#define DEBUG(fmt, ...) debug(fmt, ##__VA_ARGS__)
 #else
 #define DEBUG_INIT()
 #define DEBUG(fmt, ...)
