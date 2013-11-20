@@ -30,7 +30,6 @@
 
 #include <stdio.h>
 
-#include <LUFA/Drivers/Board/LEDs.h>
 #include <LUFA/Drivers/USB/USB.h>
 
 #include "usb-descriptors.h"
@@ -62,7 +61,6 @@ static USB_ClassInfo_CDC_Device_t imuco_cdc_interface = {
 
 void
 debug_init(void) {
-    LEDs_Init();
     USB_Init();
     CDC_Device_CreateStream(&imuco_cdc_interface, &imuco_cdc_stream);
 }
@@ -75,16 +73,6 @@ debug(const char* fmt, ...)
     va_start(va, fmt);
     vfprintf(&imuco_cdc_stream, fmt, va);
     va_end(va);
-}
-
-void
-EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t *const CDCInterfaceInfo)
-{
-    if (CDCInterfaceInfo->State.ControlLineStates.HostToDevice & CDC_CONTROL_LINE_OUT_DTR) {
-        LEDs_TurnOnLEDs(LEDS_LED1);
-    } else {
-        LEDs_TurnOffLEDs(LEDS_LED1);
-    }
 }
 
 void
