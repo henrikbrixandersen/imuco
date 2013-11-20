@@ -35,7 +35,7 @@
 #define IMUCO_MANUFACTURER_STR     L"Henrik Brix Andersen"
 #define IMUCO_MANUFACTURER_STR_LEN 20
 #define IMUCO_PRODUCT_STR          L"IMUco"
-#define IMUCO_PRODUCT_STR_LEN      17
+#define IMUCO_PRODUCT_STR_LEN      5
 
 #define IMUCO_VID       0x03EB /* Atmel VID */
 #define IMUCO_PID       0x2044 /* Derived from the LUFA CDC Demo Application, use same PID */
