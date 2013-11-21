@@ -25,6 +25,7 @@
 #include "statediagrams.uml"
 
 // States
+#define S_INIT_I2C       "{ INIT_I2C | entry / i2c_init() }"
 #define S_INIT_ITG3200   "{ INIT_ITG3200 | entry / itg3200_init() }"
 #define S_INIT_ADXL345   "{ INIT_ADXL345 | entry / adxl345_init() }"
 #define S_INIT_HMC5883L  "{ INIT_HMC5883L | entry / hmc5883l_init() }"
@@ -37,6 +38,7 @@
 digraph "IMUco Firmware State Diagram" {
 	// States
 	start();
+	state(S_INIT_I2C);
 	state(S_INIT_ITG3200);
 	state(S_INIT_ADXL345);
 	state(S_INIT_HMC5883L);
@@ -45,8 +47,11 @@ digraph "IMUco Firmware State Diagram" {
 	state(S_RD_ADXL345);
 	state(S_RD_HMC5883L);
 
+	// Initialize i2c
+	transition(S_START, S_INIT_I2C, "");
+
 	// Initialize gyrscope
-	transition(S_START, S_INIT_ITG3200, "");
+	transition(S_INIT_I2C, S_INIT_ITG3200, "");
 	transition(S_INIT_ITG3200, S_INIT_ITG3200, "I2C_IRQ / itg3200_i2c_isr()");
 
 	// Initialize accerometer
@@ -63,7 +68,7 @@ digraph "IMUco Firmware State Diagram" {
 	transition(S_LOOP, S_LOOP, "ADXL345_IRQ / adxl345_rdy=1");
 	transition(S_LOOP, S_LOOP, "HMC5883L_IRQ / hmc5883l_rdy=1");
 
-	// Read gyrscope
+	// Read gyroscope
 	transition(S_LOOP, S_RD_ITG3200, "[itg3200_rdy==1]");
 	transition(S_RD_ITG3200, S_LOOP, "ITG3200_DATA_CB");
 	transition(S_RD_ITG3200, S_RD_ITG3200, "I2C_IRQ / itg3200_i2c_isr()");
@@ -73,7 +78,7 @@ digraph "IMUco Firmware State Diagram" {
 	transition(S_RD_ADXL345, S_LOOP, "ADXL345_DATA_CB");
 	transition(S_RD_ADXL345, S_RD_ADXL345, "I2C_IRQ / adxl345_i2c_isr()");
 
-	// Read magetometer
+	// Read magnetometer
 	transition(S_LOOP, S_RD_HMC5883L, "[hmc5883l_rdy==1]");
 	transition(S_RD_HMC5883L, S_LOOP, "HMC5883L_DATA_CB");
 	transition(S_RD_HMC5883L, S_RD_HMC5883L, "I2C_IRQ / hmc5883l_i2c_isr()");
